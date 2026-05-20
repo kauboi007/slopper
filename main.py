@@ -1,9 +1,9 @@
 from PIL import Image
 from DCT import twoddct
-from analyzers import hfr,slope,flatness,spike
-from viz import visualize,visualize_residual
+from analyzers import hfr,slope,flatness,spike,finalscore
+from viz import visualize_residual,visualize
 
-img=Image.open("image1.JPG").convert("L")
+img=Image.open("image.JPG").convert("L")#add your img path
 pixels=list(img.getdata())
 width,height=img.size
 matrix=[pixels[i*width:(i+1)*width]for i in range(height)]
@@ -29,4 +29,9 @@ print(f"flatness:{flatness(p)}")
 print(f"spike score:{spike(p)}")
 alpha, intercept = slope(p)
 print(f"slope value:{alpha}")
+fs=finalscore(p)
+print(f"final score:{fs}")
+verdict = "REAL" if fs >= 50 else "AI"
+print(f"the image is {verdict}")
+visualize(p)
 visualize_residual(p, alpha, intercept)

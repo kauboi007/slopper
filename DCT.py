@@ -1,5 +1,5 @@
 import  math
-
+#dct functions
 def dct(rows):
     x=[]
     for k in range(0,8):

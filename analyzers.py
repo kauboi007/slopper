@@ -1,4 +1,5 @@
 import math
+#all the anal - hfr,flatness,slope,spikes
 def hfr(p):
     lsum=0
     sum=0
@@ -79,3 +80,17 @@ def spike(p):
     v=v[1:]
     score = max(max(autocorr(h)), max(autocorr(v)))
     return score
+
+def finalscore(p):
+    h = hfr(p)
+    a, intercept = slope(p)
+    f = flatness(p)
+    sp = spike(p)
+
+    slopescore = max(0, min(1, (a - (-2.0)) / (-5.0 - (-2.0))))   # real= < -3.5, AI= > -2.0
+    hfrscore = max(0, min(1, 1 - (h / 0.3)))                      # real= low, AI= high
+    flatscore = max(0, min(1, 1 - (f / 0.8)))                     
+    spikescore = max(0, min(1, 1 - (sp / 0.6)))                    
+
+    score = (slopescore*0.25+hfrscore*0.20 +flatscore*0.35+spikescore*0.20)*100
+    return round(score, 1)
