@@ -1,6 +1,6 @@
 from PIL import Image
 from DCT import twoddct
-
+from analysis import hfr,slope
 img=Image.open("image.JPG").convert("L")
 pixels=list(img.getdata())
 width,height=img.size
@@ -22,7 +22,5 @@ for k in range(8):
         for l in range(8):
             p[k][l]/=nblocks
 
-print("P[0][0]:", p[0][0])
-print("P[7][7]:", p[7][7])
-for rows in p:
-     print([round(v,2) for v in rows])
+print(f"hfr value:{hfr(p)}")
+print(f"slope value:{slope(p)}")
