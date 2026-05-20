@@ -1,7 +1,9 @@
 from PIL import Image
 from DCT import twoddct
-from analysis import hfr,slope
-img=Image.open("image.JPG").convert("L")
+from analyzers import hfr,slope,flatness,spike
+from viz import visualize,visualize_residual
+
+img=Image.open("image1.JPG").convert("L")
 pixels=list(img.getdata())
 width,height=img.size
 matrix=[pixels[i*width:(i+1)*width]for i in range(height)]
@@ -23,4 +25,8 @@ for k in range(8):
             p[k][l]/=nblocks
 
 print(f"hfr value:{hfr(p)}")
-print(f"slope value:{slope(p)}")
+print(f"flatness:{flatness(p)}")
+print(f"spike score:{spike(p)}")
+alpha, intercept = slope(p)
+print(f"slope value:{alpha}")
+visualize_residual(p, alpha, intercept)
